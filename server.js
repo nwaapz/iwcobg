@@ -50,13 +50,15 @@ wss.on('connection', function connection(ws) {
    ws.alive=true;
    ws.on('error', console.error);
    ws.on('pong', heartbeat);
+
    ws.on('message', (data) => {
 
       let tagMessage={
          tag:""
       }
 
-
+      const base64data = Buffer.from(data, 'binary').toString('base64');
+      console.log(base64data);
 
       const message= JSON.parse(data.toString());
      // console.log(message.tag)
