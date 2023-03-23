@@ -1,6 +1,6 @@
 
 const WebSocket = require('ws')
-const wss = new WebSocket.Server({ port: 8080 },()=>{
+const wss = new WebSocket.Server({ port: 80 },()=>{
     console.log('server 2 started')
 })
 
@@ -2237,7 +2237,7 @@ function base64ToArrayBuffer(base64) {
 }
 
 wss.on('listening',()=>{
-   console.log('listening on 8080')
+   console.log('listening on 80')
 })
 
 wss.on('close', function close() {
