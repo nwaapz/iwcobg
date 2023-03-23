@@ -1,7 +1,7 @@
 
 const WebSocket = require('ws')
 const wss = new WebSocket.Server({ port: 80 },()=>{
-    console.log('server 3 started')
+    console.log('server 4 started')
 })
 
 
@@ -59,8 +59,14 @@ wss.on('connection', function connection(ws) {
 
       const base64data = Buffer.from(data, 'binary').toString('base64');
       console.log(base64data);
+      let incoming;
+      if(!base64data.includes("binary"))
+      {
+       incoming=  JSON.parse(data.toString())
+      }else {
 
-      const message= JSON.parse(data.toString());
+      }
+      const message=incoming ;
      // console.log(message.tag)
       if(message.tag==="checkForLastGame")
       {
@@ -1118,7 +1124,7 @@ const interval = setInterval(function ping() {
       ws.alive = false;
       ws.ping();
    });
-}, 3000);
+}, 30000);
 
 
  function FriendlyMatchmaker(ws,oppname)
