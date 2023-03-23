@@ -1,7 +1,7 @@
 
 const WebSocket = require('ws')
 const wss = new WebSocket.Server({ port: 8080 },()=>{
-    console.log('server started')
+    console.log('server 2 started')
 })
 
 
@@ -1103,6 +1103,7 @@ const interval = setInterval(function ping() {
 
       if (ws.alive === false)
       {
+         console.log("a user was lost in pong");
          if(ws.opp)
          {
             let message=new Object();
