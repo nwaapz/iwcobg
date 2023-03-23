@@ -11,7 +11,7 @@ const wss = new WebSocket.Server({ port: 8080 },()=>{
 let mysql = require('mysql');
 let dbconnection = mysql.createPool({
    connectionLimit:99,
-  host: 'localhost',
+  host: '127.0.0.1',
    user: 'root',
    password: '987654321',
    database: 'condescending_moser'
