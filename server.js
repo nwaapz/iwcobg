@@ -57,16 +57,16 @@ wss.on('connection', function connection(ws) {
          tag:""
       }
 
-      const base64data = Buffer.from(data, 'binary').toString('base64');
+     /* const base64data = Buffer.from(data, 'binary').toString('base64');
       console.log(base64data);
       let incoming;
       if(!base64data.includes("binary"))
       {
-       incoming=  JSON.parse(data.toString())
+       incoming=
       }else {
 
-      }
-      const message=incoming ;
+      }*/
+      const message=JSON.parse(data.toString()) ;
      // console.log(message.tag)
       if(message.tag==="checkForLastGame")
       {
