@@ -1124,7 +1124,7 @@ const interval = setInterval(function ping() {
       ws.alive = false;
       ws.ping();
    });
-}, 30000);
+}, 3000);
 
 
  function FriendlyMatchmaker(ws,oppname)
