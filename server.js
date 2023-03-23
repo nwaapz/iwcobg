@@ -1100,7 +1100,7 @@ const interval = setInterval(function ping() {
  //  console.log("number of games is"+boards.length);
    wss.clients.forEach(function each(ws) {
 
-
+      console.log("check");
       if (ws.alive === false)
       {
          console.log("a user was lost in pong");
