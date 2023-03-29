@@ -11,9 +11,9 @@ const wss = new WebSocket.Server({ port: 80 },()=>{
 let mysql = require('mysql');
 let dbconnection = mysql.createPool({
    connectionLimit:99,
-  host: '127.0.0.1',
+  host: 'backgammon',
    user: 'root',
-   password: '987654321',
+   password: 'WraRnB6Y9sAPdt0QLJvQFM19',
    database: 'condescending_moser'
 });
 
@@ -110,6 +110,7 @@ wss.on('connection', function connection(ws) {
          ws.username=message.userName;     
          ws.roomId=message.roomId; 
          ws.token=message.UserToken;
+         console.log(message);
          console.log(ws.token);   
          GetUserIdBasedOnUserName(dbconnection,ws.username).then(function(rows){
             let userid=JSON.parse(JSON.stringify(rows));
@@ -454,10 +455,42 @@ wss.on('connection', function connection(ws) {
       }
       else if(message.tag==="signup")
       {
-         console.log("sign up");
+
+         console.log("Searching for greatest id");
+         let GreatesIdQuery="SELECT * from users ";
+         dbconnection.query(GreatesIdQuery,(err,row)=>{
+            if (err) throw err;
+
+            let newUserName="Guest"+row.length;
+            let userid=row.length;
+            let level=0;
+            let coin=0;
+            let email=0;
+            let password=0;
+            let newUserQuery="Insert into users (username,id,level,coin,password,email) VALUES ('"+newUserName+"','"+userid+"',+'"+level+"',0,0,0)";
+            dbconnection.query(newUserQuery,(err,row)=>{
+               if(err) throw err;
+               //user created
+               tagMessage.tag="usercreated";
+               tagMessage.username=newUserName;
+               tagMessage.coin=0;
+               tagMessage.email=0;
+               tagMessage.level=0;
+
+               console.log(tagMessage);
+               ws.send(JSON.stringify(tagMessage));
+            })
+         })
+
+
+
+
+
+
+         /*console.log("sign up");
          let password=message.password;
          let email=message.email;
-         let coin=100;
+         let coin=0;
          let level=1;
          let username="";
          let checkQuery="SELECT * from users where email='"+email+"'";
@@ -479,7 +512,7 @@ wss.on('connection', function connection(ws) {
                         row=JSON.parse(JSON.stringify(row));
                         let id=row[0].id;
                         console.log(id)
-                        let username="user"+id;
+                        let username="guest"+id;
                         let updatequery= "UPDATE users SET username='"+username+"' WHERE email='"+email+"'";
                         dbconnection.query(updatequery,(err,field)=>{
                            if(err) throw err;
@@ -496,7 +529,7 @@ wss.on('connection', function connection(ws) {
                })
             }
          });
-
+*/
          
          
       }
@@ -1108,7 +1141,7 @@ const interval = setInterval(function ping() {
  //  console.log("number of games is"+boards.length);
    wss.clients.forEach(function each(ws) {
 
-      console.log("check");
+      //console.log("check");
       if (ws.alive === false)
       {
          console.log("a user was lost in pong");
@@ -1460,7 +1493,7 @@ function MatchMaker(ws)
                      state:null,
                      timer:null,
                      userturn:"",
-                     room:"",
+                     room:0,
                      userAdetails:UserAdetails,
                      userBdetails:UserBdetails,
                      turn:0,
@@ -1477,7 +1510,7 @@ function MatchMaker(ws)
 
                tagMessage.brd=GameState.array;
                GameState.room=ws.room;
-               console.log(GameState.room)
+               console.log(GameState.room+"is game price")
                console.log(ws.level)
                GameState.userAdetails.username=ws.opp.username;
                GameState.userAdetails.hitted=0;
@@ -1989,19 +2022,20 @@ function finishBoard(Board,winnerUsername,winnerSocket)
 
 function Resign(Board,resignerName,resignerSocket)
 {
-
+   console.log(Board.room);
    if(!Board)
    {
       return;
    }
 
-   if(!Board.room)
+   if(!Board.room && Board.room!==0)
    {
+      console.log("no room");
       return;
    }
 
    //let winPrice=Board.room;
-
+   console.log("resigning")
    let loserusername;
    let winnerUsername;
    if(Board.userA===resignerName)
@@ -2015,10 +2049,11 @@ function Resign(Board,resignerName,resignerSocket)
 
 
    let boardId=Board.Boardid;
-
+   console.log(Board.room+" is room price");
    GetUserIdBasedOnUserName(dbconnection,winnerUsername).then(function(rows){
       let userid=JSON.parse(JSON.stringify(rows));
       let winnerid=(userid[0].id);
+      console.log("winner id"+winnerid);
       SendWinner(winnerid,boardId);
    })
 
