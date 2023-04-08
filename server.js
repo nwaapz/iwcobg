@@ -1,7 +1,7 @@
 
 const WebSocket = require('ws')
 const wss = new WebSocket.Server({ port: 80 },()=>{
-    console.log('server 4 started')
+    console.log('server 4 started on 80')
 })
 
 
@@ -11,9 +11,11 @@ const wss = new WebSocket.Server({ port: 80 },()=>{
 let mysql = require('mysql');
 let dbconnection = mysql.createPool({
    connectionLimit:99,
-  host: '127.0.0.1',
+ // host: '127.0.0.1',
+   host: 'backgammon',
    user: 'root',
-   password: '987654321',
+   //password: '987654321',
+   password: 'WraRnB6Y9sAPdt0QLJvQFM19',
    database: 'condescending_moser'
 });
 
@@ -1426,7 +1428,6 @@ function MatchMaker(ws)
 
     if(closeOpponent!=null)
     {
-      
       console.log("match init")
        console.log(ws.username);
       console.log(closeOpponent.username);
@@ -1445,7 +1446,7 @@ function MatchMaker(ws)
       console.log("new opponent sent to caller")
 
       let indexOfClosingSocket=lobby.indexOf(ws);
-         lobby.splice(indexOfClosingSocket);
+         lobby.splice(indexOfClosingSocket,1);
       
 
 
@@ -2022,7 +2023,7 @@ function finishBoard(Board,winnerUsername,winnerSocket)
 
 function Resign(Board,resignerName,resignerSocket)
 {
-   console.log(Board.room);
+
    if(!Board)
    {
       return;
