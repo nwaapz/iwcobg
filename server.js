@@ -1,27 +1,27 @@
 
+const port=process.env.PORT || 3030;
+
 const WebSocket = require('ws')
-const wss = new WebSocket.Server({ port: 80 },()=>{
-    console.log('server 4 started on 80')
+const wss = new WebSocket.Server({ port: port },()=>{
+   console.log('server 4 started on '+port)
 })
+ let mysqlHost=process.env.MYSQL_HOST || '127.0.0.1';
+ let mysqlPort=process.env.MYSQL_PORT || '3306';
+ let mysqluser=process.env.MYSQL_USER || 'root';
+ let mysqlPass=process.env.MYSQL_PASS || '1111';
+ let mysqlDB=process.env.MYSQL_DB || 'backgammon';
 
 
-
-
-
-let mysql = require('mysql');
-let dbconnection = mysql.createPool({
+var mysql = require('mysql');
+var dbconnection = mysql.createPool({
    connectionLimit:99,
- // host: '127.0.0.1',
-   host: 'backgammon',
-   user: 'root',
-   //password: '987654321',
-   password: 'WraRnB6Y9sAPdt0QLJvQFM19',
-   database: 'condescending_moser'
+   host     : mysqlHost,
+   user     : mysqluser,
+   password : mysqlPass,
+   port     : mysqlPort,
+   database: mysq
+
 });
-
-
-
-
 
 
 dbconnection.getConnection((err,connection)=> {
@@ -1698,10 +1698,14 @@ function changeTurn(GameBoard,ws)
       let tagMessage={
          tag:"Turn-start",         
       }
-      
-      ws.send(JSON.stringify(tagMessage))
 
-      waitForSocketToPlay(GameBoard);   
+      if(ws.opp.alive)
+      {
+         ws.send(JSON.stringify(tagMessage))
+
+         waitForSocketToPlay(GameBoard);
+      }
+
 
       }, 6000);
   console.log("waiting for dice timer");
