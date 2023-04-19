@@ -1159,7 +1159,7 @@ const interval = setInterval(function ping() {
       ws.alive = false;
       ws.ping();
    });
-}, 3000);
+}, 10000);
 
 
  function FriendlyMatchmaker(ws,oppname)
@@ -1211,7 +1211,7 @@ const interval = setInterval(function ping() {
       console.log("new opponent sent to caller")
 
       let indexOfClosingSocket=lobby.indexOf(ws);
-         lobby.splice(indexOfClosingSocket);
+         lobby.splice(indexOfClosingSocket,1);
       
 
 
