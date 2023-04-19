@@ -1,5 +1,5 @@
 
-const port=process.env.PORT || 3030;
+const port= 8080;
 
 const WebSocket = require('ws')
 const wss = new WebSocket.Server({ port: port },()=>{
@@ -8,8 +8,8 @@ const wss = new WebSocket.Server({ port: port },()=>{
  let mysqlHost=process.env.MYSQL_HOST || '127.0.0.1';
  let mysqlPort=process.env.MYSQL_PORT || '3306';
  let mysqluser=process.env.MYSQL_USER || 'root';
- let mysqlPass=process.env.MYSQL_PASS || '1111';
- let mysqlDB=process.env.MYSQL_DB || 'backgammon';
+ let mysqlPass=process.env.MYSQL_PASS || '987654321';
+ let mysqlDB=process.env.MYSQL_DB || 'condescending_moser';
 
 
 var mysql = require('mysql');
@@ -19,7 +19,7 @@ var dbconnection = mysql.createPool({
    user     : mysqluser,
    password : mysqlPass,
    port     : mysqlPort,
-   database: mysq
+   database: mysqlDB
 
 });
 
