@@ -1134,6 +1134,7 @@ function reconnect(gameid,socket,username)
   message.userarray=board.userarray;
   message.lasttimer=board.lasttimer;
   message.phase=board.phase;
+  message.opplevel=socket.opp.level;
   console.log(message.tag)
   socket.send(JSON.stringify(message));
 }
